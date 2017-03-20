@@ -1,8 +1,13 @@
 {
   "name": "react-responsive-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Creates media queries at provided breakpoints, allowing various components to take different styles at different screen widths, or to be hidden completely.",
-  "main": "index.js",
+  "main": "js/react-responsive-components.js",
+  "typings": "js/react-responsive-components.d.ts",
+  "devDependencies": {
+    "react": "^15.4.2",
+    "@types/react": "^15.0.16"
+  },
   "keywords": [
     "responsive",
     "adaptive",
@@ -10,14 +15,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sportsbet/react-responsive-components.git"
+    "url": "https://github.com/sportsbet/react-responsive-components.git"
   },
   "author": "Sportsbet Pty Ltd <james.erekson@sportsbet.com.au> (https://github.com/sportsbet)",
-  "license": "MIT",
-  "dependencies": {
-    "react": "^15.4.2"
-  },
-  "devDependencies": {
-    "@types/react": "^15.0.16"
-  }
+  "license": "MIT"
 }

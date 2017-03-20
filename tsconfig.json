@@ -10,7 +10,8 @@
         "allowSyntheticDefaultImports": true,
         "sourceMap": false,
         "rootDir": "ts",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "declaration": true
     },
     "include": [
         "ts/react-responsive-components.tsx"

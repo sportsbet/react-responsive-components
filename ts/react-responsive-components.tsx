@@ -13,7 +13,7 @@ export interface MixedInHoCProps {
 	breakpoints?: Breakpoints
 }
 
-export function responsiveHoC<TComponentProps extends MixedInHoCProps>(component: React.ComponentClass<TComponentProps>, breakpoints: Breakpoints) {
+export function responsiveHoC<TComponentProps extends MixedInHoCProps>(component: React.ComponentClass<TComponentProps>, breakpoints: Breakpoints): React.ComponentClass<TComponentProps> {
 	return class WrappedResponsive extends React.Component<TComponentProps, void> {
 		render() {
 			const props = Object.assign({}, this.props, {
