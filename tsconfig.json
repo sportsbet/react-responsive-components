@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "es5",
+        "lib": ["dom", "es5", "es6", "es2015", "scripthost"],
+        "experimentalDecorators": true,
+        "preserveConstEnums": true,
+        "outDir": "js",
+        "skipDefaultLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": false,
+        "rootDir": "ts",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "ts/react-responsive-components.tsx"
+    ]
+}
