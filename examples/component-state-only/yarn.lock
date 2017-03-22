@@ -2099,8 +2099,8 @@ react-dom@^15.4.2:
     object-assign "^4.1.0"
 
 react-responsive-components@^0.1.2:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/react-responsive-components/-/react-responsive-components-0.1.1.tgz#c5b3475b08d82e1eadc144a6cee8aef951852fa7"
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-responsive-components/-/react-responsive-components-0.1.2.tgz#775e2ddf8b24df197871bafeacb6c1a38b41f42b"
 
 react@^15.4.2:
   version "15.4.2"
