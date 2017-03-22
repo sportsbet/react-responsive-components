@@ -30,7 +30,7 @@ export function responsiveHoC<TComponentProps extends MixedInHoCProps>(component
 
 export interface ResponsiveRootProps extends MixedInHoCProps {
 	currentBreakpointChanged?: (breakpoint: Breakpoint) => any
-	widthUnits?: "px" | "rem"
+	widthUnits?: "px" | "rem" | "em"
 }
 
 /**
