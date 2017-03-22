@@ -5,6 +5,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var React = require("react");
+/**
+ * This function takes a component to wrap and a breakpoint object. The breakpoints object
+ * will be passed into the wrapped component as props.
+ */
 function responsiveHoC(component, breakpoints) {
     return (function (_super) {
         __extends(WrappedResponsive, _super);
@@ -21,6 +25,20 @@ function responsiveHoC(component, breakpoints) {
     }(React.Component));
 }
 exports.responsiveHoC = responsiveHoC;
+/**
+ * Wrap a ResponsiveRoot around one of the top-level divs in your app. It will
+ * set up media query listeners based on provided breakpoints.
+ *
+ * You can use the responsiveHoC to mix the breakpoints object in to this
+ * one as props, or just pass it in manually, but it has to match the breakpoints
+ * object you use for your <Responsive> components.
+ *
+ * Your HoC can hook into a redux store or just the parent's state or some other
+ * place that can notify the <Responsive> components when it changed. You also need
+ * to implement a currentBreakpointChanged function and pass it into ResponsiveRoot
+ * as props. ResponsiveRoot will call to it with the new breakpoint whenever the
+ * breakpoint has changed (e.g. user has shrunk the browser window).
+ */
 var ResponsiveRoot = (function (_super) {
     __extends(ResponsiveRoot, _super);
     function ResponsiveRoot() {
@@ -101,6 +119,9 @@ exports.ResponsiveRoot = ResponsiveRoot;
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
  * passing showAtOrAbove or showAtOrBelow as props to <Responsive>.
+ *
+ * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
+ * to do this for you.
  */
 var Responsive = (function (_super) {
     __extends(Responsive, _super);

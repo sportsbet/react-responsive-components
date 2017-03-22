@@ -8,11 +8,29 @@ export declare type Breakpoints = Breakpoint[];
 export interface MixedInHoCProps {
     breakpoints?: Breakpoints;
 }
+/**
+ * This function takes a component to wrap and a breakpoint object. The breakpoints object
+ * will be passed into the wrapped component as props.
+ */
 export declare function responsiveHoC<TComponentProps extends MixedInHoCProps>(component: React.ComponentClass<TComponentProps>, breakpoints: Breakpoints): React.ComponentClass<TComponentProps>;
 export interface ResponsiveRootProps extends MixedInHoCProps {
     currentBreakpointChanged?: (breakpoint: Breakpoint) => any;
     widthUnits?: "px" | "rem";
 }
+/**
+ * Wrap a ResponsiveRoot around one of the top-level divs in your app. It will
+ * set up media query listeners based on provided breakpoints.
+ *
+ * You can use the responsiveHoC to mix the breakpoints object in to this
+ * one as props, or just pass it in manually, but it has to match the breakpoints
+ * object you use for your <Responsive> components.
+ *
+ * Your HoC can hook into a redux store or just the parent's state or some other
+ * place that can notify the <Responsive> components when it changed. You also need
+ * to implement a currentBreakpointChanged function and pass it into ResponsiveRoot
+ * as props. ResponsiveRoot will call to it with the new breakpoint whenever the
+ * breakpoint has changed (e.g. user has shrunk the browser window).
+ */
 export declare class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
     static defaultProps: Partial<ResponsiveRootProps>;
     private mediaQueriesWithListeners;
@@ -46,6 +64,9 @@ export interface ResponsiveChildProps {
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
  * passing showAtOrAbove or showAtOrBelow as props to <Responsive>.
+ *
+ * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
+ * to do this for you.
  */
 export declare class Responsive extends React.Component<ResponsiveProps, void> {
     getComparisonBreakpoint(comparisonBreakpointName: string): Breakpoint;

@@ -1,0 +1,108 @@
+body {
+    font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
+}
+
+.header {
+    background: linear-gradient(#686868, #BFBFBF);
+    color: white;
+    font-size: 20px;
+    height: 98px;
+}
+
+.header-small {
+    height: 48px;
+}
+
+.upper-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+}
+
+.nav-container {
+    display: flex;
+}
+
+.nav-item {
+    font-size: 12px;
+    padding: 10px 5px;
+    margin: 0 15px;
+}
+
+.nav-item:hover {
+    border-bottom: 2px solid white;
+}
+
+.brand-label {
+    padding: 0 20px;
+}
+
+.shopping-basket {
+    background: linear-gradient(white, #888);
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    border: 1px solid #888;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #686868;
+    right: 40px;
+    top: 74px;
+}
+
+.shopping-basket-small {
+    background: linear-gradient(#4B4B4B, #686868);
+    border-radius: initial;
+    position: static;
+    border: none;
+    width: 48px;
+    height: 48px;
+    padding: 13px;
+    color: white;
+}
+
+.side-menu-hamburger {
+    background: linear-gradient(#4B4B4B, #686868);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+}
+
+.content {
+    margin: 20px 48px;
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content-item {
+    margin: 20px 20px 20px 0;
+}
+
+.content-item-small {
+    width: 140px;
+}
+
+.content-item-medium {
+    width: 160px;
+}
+
+.content-item-wide {
+    width: 160px;
+}
+
+.content-item-heading {
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.content-item-text {
+    font-size: 15px;
+}

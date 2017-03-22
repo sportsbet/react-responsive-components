@@ -1,0 +1,28 @@
+{
+  "name": "responsive-example",
+  "version": "0.1.0",
+  "description": "Examples for react-responsive-container",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sportsbet Pty Ltd <james.erekson@sportsbet.com.au> (https://github.com/sportsbet)",
+  "license": "MIT",
+  "dependencies": {
+    "@types/classnames": "^0.0.32",
+    "@types/react": "^15.0.16",
+    "@types/react-dom": "^0.14.23",
+    "classnames": "^2.2.5",
+    "del": "^2.2.2",
+    "fs-extra": "^2.1.2",
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.8",
+    "html-webpack-plugin": "^2.28.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-responsive-components": "^0.1.2",
+    "ts-loader": "^2.0.2",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1"
+  }
+}

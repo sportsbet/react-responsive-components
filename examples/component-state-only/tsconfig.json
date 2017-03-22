@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "es5",
+        "lib": ["es6","dom"],
+        "noImplicitAny": true,
+        "preserveConstEnums": true,
+        "module": "commonjs",
+        "outDir": "build",
+        "skipDefaultLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "rootDir": "src",
+        "sourceMap": true,
+        "moduleResolution": "node"
+    },
+    "include": ["src/index.tsx"],
+    "exclude": ["build", "node_modules"],
+    "compileOnSave": false
+}

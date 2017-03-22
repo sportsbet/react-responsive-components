@@ -1,6 +1,6 @@
 {
   "name": "react-responsive-components",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Creates media queries at provided breakpoints, allowing various components to take different styles at different screen widths, or to be hidden completely.",
   "main": "js/react-responsive-components.js",
   "typings": "js/react-responsive-components.d.ts",
