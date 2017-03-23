@@ -26,87 +26,6 @@ function responsiveHoC(component, breakpoints) {
 }
 exports.responsiveHoC = responsiveHoC;
 /**
- * Wrap a ResponsiveRoot around one of the top-level divs in your app. It will
- * set up media query listeners based on provided breakpoints.
- *
- * You can use the responsiveHoC to mix the breakpoints object in to this
- * one as props, or just pass it in manually, but it has to match the breakpoints
- * object you use for your <Responsive> components.
- *
- * Your HoC can hook into a redux store or just the parent's state or some other
- * place that can notify the <Responsive> components when it changed. You also need
- * to implement a currentBreakpointChanged function and pass it into ResponsiveRoot
- * as props. ResponsiveRoot will call to it with the new breakpoint whenever the
- * breakpoint has changed (e.g. user has shrunk the browser window).
- */
-var ResponsiveRoot = (function (_super) {
-    __extends(ResponsiveRoot, _super);
-    function ResponsiveRoot() {
-        return _super.apply(this, arguments) || this;
-    }
-    ResponsiveRoot.prototype.componentDidMount = function () {
-        var _this = this;
-        if (window.matchMedia) {
-            var mediaQueries = this.buildMediaQueryStrings(this.props.breakpoints);
-            this.mediaQueriesWithListeners = mediaQueries.map(function (namedMediaQuery) {
-                var mediaQuery = window.matchMedia(namedMediaQuery.mediaQuery);
-                var listener = function () {
-                    if (mediaQuery.matches) {
-                        _this.props.currentBreakpointChanged({
-                            name: namedMediaQuery.name,
-                            width: namedMediaQuery.maxWidth
-                        });
-                    }
-                };
-                mediaQuery.addListener(listener);
-                listener();
-                return { mediaQuery: mediaQuery, listener: listener };
-            });
-        }
-    };
-    ResponsiveRoot.prototype.componentWillUnmount = function () {
-        if (window.matchMedia) {
-            this.mediaQueriesWithListeners.forEach(function (_a) {
-                var mediaQuery = _a.mediaQuery, listener = _a.listener;
-                mediaQuery.removeListener(listener);
-            });
-            delete this.mediaQueriesWithListeners;
-        }
-    };
-    ResponsiveRoot.prototype.buildMediaQueryStrings = function (breakpoints) {
-        var _this = this;
-        return breakpoints.map(function (breakpoint, index, allBreakpoints) {
-            var mediaQuery;
-            if (index === 0) {
-                mediaQuery = "(max-width: " + breakpoint.width + _this.props.widthUnits + ")";
-            }
-            else {
-                var minWidthMediaQueryString = "(min-width: " + (allBreakpoints[index - 1].width + 1) + _this.props.widthUnits + ")";
-                if (breakpoint.width < Infinity) {
-                    var mediaQueryString = minWidthMediaQueryString + " and (max-width: " + breakpoint.width + _this.props.widthUnits + ")";
-                    mediaQuery = mediaQueryString;
-                }
-                else {
-                    mediaQuery = minWidthMediaQueryString;
-                }
-            }
-            return {
-                name: breakpoint.name,
-                maxWidth: breakpoint.width,
-                mediaQuery: mediaQuery
-            };
-        });
-    };
-    ResponsiveRoot.prototype.render = function () {
-        return (React.createElement("div", null, this.props.children));
-    };
-    return ResponsiveRoot;
-}(React.Component));
-ResponsiveRoot.defaultProps = {
-    widthUnits: "px"
-};
-exports.ResponsiveRoot = ResponsiveRoot;
-/**
  * Wrap this component around anything that you want to be responsive. There are two flavours:
  *
  * 1) You pass your own components as children. All the top-level components you pass need to
@@ -125,9 +44,64 @@ exports.ResponsiveRoot = ResponsiveRoot;
  */
 var Responsive = (function (_super) {
     __extends(Responsive, _super);
-    function Responsive() {
-        return _super.apply(this, arguments) || this;
+    function Responsive(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            currentBreakpoint: props.breakpoints[0]
+        };
+        return _this;
     }
+    Responsive.prototype.componentDidMount = function () {
+        var _this = this;
+        if (window.matchMedia) {
+            var mediaQueries = this.buildMediaQueryStrings(this.props.breakpoints);
+            this.mediaQueriesWithListeners = mediaQueries.map(function (namedMediaQuery) {
+                var mediaQuery = window.matchMedia(namedMediaQuery.mediaQuery);
+                var listener = function () {
+                    if (mediaQuery.matches) {
+                        _this.setState({
+                            currentBreakpoint: namedMediaQuery.breakpoint
+                        });
+                    }
+                };
+                mediaQuery.addListener(listener);
+                listener();
+                return { mediaQuery: mediaQuery, listener: listener };
+            });
+        }
+    };
+    Responsive.prototype.componentWillUnmount = function () {
+        if (window.matchMedia) {
+            this.mediaQueriesWithListeners.forEach(function (_a) {
+                var mediaQuery = _a.mediaQuery, listener = _a.listener;
+                mediaQuery.removeListener(listener);
+            });
+            delete this.mediaQueriesWithListeners;
+        }
+    };
+    Responsive.prototype.buildMediaQueryStrings = function (breakpoints) {
+        var _this = this;
+        return breakpoints.map(function (breakpoint, index, allBreakpoints) {
+            var mediaQuery;
+            if (index === 0) {
+                mediaQuery = "(max-width: " + breakpoint.width + _this.props.widthUnits + ")";
+            }
+            else {
+                var minWidthMediaQueryString = "(min-width: " + (allBreakpoints[index - 1].width + 1) + _this.props.widthUnits + ")";
+                if (breakpoint.width < Infinity) {
+                    var mediaQueryString = minWidthMediaQueryString + " and (max-width: " + breakpoint.width + _this.props.widthUnits + ")";
+                    mediaQuery = mediaQueryString;
+                }
+                else {
+                    mediaQuery = minWidthMediaQueryString;
+                }
+            }
+            return {
+                breakpoint: breakpoint,
+                mediaQuery: mediaQuery
+            };
+        });
+    };
     Responsive.prototype.getComparisonBreakpoint = function (comparisonBreakpointName) {
         return this.props.breakpoints.find(function (breakpoint) {
             return breakpoint.name === comparisonBreakpointName;
@@ -135,10 +109,10 @@ var Responsive = (function (_super) {
     };
     Responsive.prototype.render = function () {
         var childrenToRender = null;
-        if (this.props.currentBreakpoint && ((!this.props.showAtOrAbove && !this.props.showAtOrBelow) ||
-            (this.props.showAtOrAbove && this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
-            (this.props.showAtOrBelow && this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width))) {
-            var responsiveKey_1 = this.props.currentBreakpoint.name;
+        if (this.state.currentBreakpoint && ((!this.props.showAtOrAbove && !this.props.showAtOrBelow) ||
+            (this.props.showAtOrAbove && this.state.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
+            (this.props.showAtOrBelow && this.state.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width))) {
+            var responsiveKey_1 = this.state.currentBreakpoint.name;
             if (typeof this.props.children === "function") {
                 childrenToRender = this.props.children(responsiveKey_1);
             }
@@ -160,4 +134,7 @@ var Responsive = (function (_super) {
     };
     return Responsive;
 }(React.Component));
+Responsive.defaultProps = {
+    widthUnits: "px"
+};
 exports.Responsive = Responsive;
