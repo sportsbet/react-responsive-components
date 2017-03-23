@@ -7,17 +7,18 @@ export interface Breakpoint {
 export declare type Breakpoints = Breakpoint[];
 export interface MixedInHoCProps {
     breakpoints?: Breakpoints;
+    widthUnits?: "px" | "rem" | "em";
 }
 /**
- * This function takes a component to wrap and a breakpoint object. The breakpoints object
- * will be passed into the wrapped component as props.
+ * This function takes a component to wrap and a props object. All the props will be passed to the
+ * <Responsive> component as props. Individual <WrappedResponsive> components can take breakpoints
+ * and widthUnits that override the defaults.
  */
-export declare function responsiveHoC<TComponentProps extends MixedInHoCProps>(component: React.ComponentClass<TComponentProps>, breakpoints: Breakpoints): React.ComponentClass<TComponentProps>;
+export declare function responsiveHoC<TComponentProps extends MixedInHoCProps>(component: React.ComponentClass<TComponentProps>, propsToMixIn: MixedInHoCProps): React.ComponentClass<TComponentProps>;
 export interface ResponsiveState {
     currentBreakpoint?: Breakpoint;
 }
 export interface ResponsiveProps extends MixedInHoCProps {
-    widthUnits?: "px" | "rem" | "em";
     showAtOrAbove?: string;
     showAtOrBelow?: string;
 }
