@@ -34,7 +34,8 @@ export interface ResponsiveState {
 
 export interface ResponsiveProps extends MixedInHoCProps {
 	showAtOrAbove?: string,
-	showAtOrBelow?: string
+	showAtOrBelow?: string,
+	getCurrentBreakpoint?: () => Breakpoint
 }
 
 export interface ResponsiveChildProps {
@@ -70,13 +71,15 @@ export class Responsive extends React.Component<ResponsiveProps, ResponsiveState
 
 	constructor(props: ResponsiveProps) {
 		super(props)
-		this.state = {
-			currentBreakpoint: props.breakpoints[0]
+		if (!this.currentBreakpointIsFunction()) {
+			this.state = {
+				currentBreakpoint: props.breakpoints[0]
+			}
 		}
 	}
 
 	componentDidMount() {
-		if (window.matchMedia) {
+		if (window.matchMedia && !this.currentBreakpointIsFunction()) {
 			const mediaQueries = this.buildMediaQueryStrings(this.props.breakpoints)
 			this.mediaQueriesWithListeners = mediaQueries.map((namedMediaQuery) => {
 				const mediaQuery = window.matchMedia(namedMediaQuery.mediaQuery)
@@ -95,7 +98,7 @@ export class Responsive extends React.Component<ResponsiveProps, ResponsiveState
 	}
 
 	componentWillUnmount() {
-		if (window.matchMedia) {
+		if (window.matchMedia && !this.currentBreakpointIsFunction()) {
 			this.mediaQueriesWithListeners.forEach(({ mediaQuery, listener }) => {
 				mediaQuery.removeListener(listener)
 			})
@@ -124,6 +127,18 @@ export class Responsive extends React.Component<ResponsiveProps, ResponsiveState
 		})
 	}
 
+	currentBreakpointIsFunction(): Boolean {
+		return typeof this.props.getCurrentBreakpoint === "function"
+	}
+
+	getCurrentBreakpoint(): Breakpoint {
+		if (this.currentBreakpointIsFunction()) {
+			return this.props.getCurrentBreakpoint()
+		} else {
+			return this.state.currentBreakpoint
+		}
+	}
+
 	getComparisonBreakpoint(comparisonBreakpointName: string) {
 		return this.props.breakpoints.find((breakpoint) => {
 			return breakpoint.name === comparisonBreakpointName
@@ -132,12 +147,13 @@ export class Responsive extends React.Component<ResponsiveProps, ResponsiveState
 
 	render() {
 		let childrenToRender = null
-		if (this.state.currentBreakpoint && (
+		const currentBreakpoint = this.getCurrentBreakpoint()
+		if (
 			(!this.props.showAtOrAbove && !this.props.showAtOrBelow) ||
-			(this.props.showAtOrAbove && this.state.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
-			(this.props.showAtOrBelow && this.state.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width))
+			(this.props.showAtOrAbove && currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
+			(this.props.showAtOrBelow && currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width)
 		) {
-			const responsiveKey = this.state.currentBreakpoint.name
+			const responsiveKey = currentBreakpoint.name
 			if (typeof this.props.children === "function") {
 				childrenToRender = this.props.children(responsiveKey)
 			} else {

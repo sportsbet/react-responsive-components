@@ -16,6 +16,8 @@ If you want to completely hide or show a component at a given breakpoint, just p
 
 The `<Responsive>` component will set up all the media queries you need, based on the breakpoints you passed in. If your layout always responds to the same breakpoints, you can use responsiveHoC to mix a pre-defined breakpoints object into `<Responsive>` and the HoC you get back will always have those breakpoints automatically, saving a bit of boilerplate. If you'd like to use a different default width unit other than px, you can mix that in with the HoC as well.
 
+If you want to handle your own media query listeners, you can pass in a `getCurrentBreakpoint()` callback to `<Responsive>`. Listeners will not be set up, and it will compare "showAtOrAbove" and "showAtOrBelow" to the callback's current breakpoint.
+
 # Example
 
 ```
