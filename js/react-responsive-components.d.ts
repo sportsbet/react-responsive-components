@@ -21,7 +21,6 @@ export interface ResponsiveState {
 export interface ResponsiveProps extends MixedInHoCProps {
     showAtOrAbove?: string;
     showAtOrBelow?: string;
-    getCurrentBreakpoint?: () => Breakpoint;
 }
 export interface ResponsiveChildProps {
     responsiveKey?: string;
@@ -53,8 +52,6 @@ export declare class Responsive extends React.Component<ResponsiveProps, Respons
         breakpoint: Breakpoint;
         mediaQuery: string;
     }[];
-    currentBreakpointIsFunction(): Boolean;
-    getCurrentBreakpoint(): Breakpoint;
     getComparisonBreakpoint(comparisonBreakpointName: string): Breakpoint;
     render(): any;
 }

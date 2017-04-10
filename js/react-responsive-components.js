@@ -45,16 +45,14 @@ var Responsive = (function (_super) {
     __extends(Responsive, _super);
     function Responsive(props) {
         var _this = _super.call(this, props) || this;
-        if (!_this.currentBreakpointIsFunction()) {
-            _this.state = {
-                currentBreakpoint: props.breakpoints[0]
-            };
-        }
+        _this.state = {
+            currentBreakpoint: props.breakpoints[0]
+        };
         return _this;
     }
     Responsive.prototype.componentDidMount = function () {
         var _this = this;
-        if (window.matchMedia && !this.currentBreakpointIsFunction()) {
+        if (window.matchMedia) {
             var mediaQueries = this.buildMediaQueryStrings(this.props.breakpoints);
             this.mediaQueriesWithListeners = mediaQueries.map(function (namedMediaQuery) {
                 var mediaQuery = window.matchMedia(namedMediaQuery.mediaQuery);
@@ -72,7 +70,7 @@ var Responsive = (function (_super) {
         }
     };
     Responsive.prototype.componentWillUnmount = function () {
-        if (window.matchMedia && !this.currentBreakpointIsFunction()) {
+        if (window.matchMedia) {
             this.mediaQueriesWithListeners.forEach(function (_a) {
                 var mediaQuery = _a.mediaQuery, listener = _a.listener;
                 mediaQuery.removeListener(listener);
@@ -103,17 +101,6 @@ var Responsive = (function (_super) {
             };
         });
     };
-    Responsive.prototype.currentBreakpointIsFunction = function () {
-        return typeof this.props.getCurrentBreakpoint === "function";
-    };
-    Responsive.prototype.getCurrentBreakpoint = function () {
-        if (this.currentBreakpointIsFunction()) {
-            return this.props.getCurrentBreakpoint();
-        }
-        else {
-            return this.state.currentBreakpoint;
-        }
-    };
     Responsive.prototype.getComparisonBreakpoint = function (comparisonBreakpointName) {
         return this.props.breakpoints.find(function (breakpoint) {
             return breakpoint.name === comparisonBreakpointName;
@@ -121,11 +108,10 @@ var Responsive = (function (_super) {
     };
     Responsive.prototype.render = function () {
         var childrenToRender = null;
-        var currentBreakpoint = this.getCurrentBreakpoint();
-        if ((!this.props.showAtOrAbove && !this.props.showAtOrBelow) ||
-            (this.props.showAtOrAbove && currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
-            (this.props.showAtOrBelow && currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width)) {
-            var responsiveKey_1 = currentBreakpoint.name;
+        if (this.state.currentBreakpoint && ((!this.props.showAtOrAbove && !this.props.showAtOrBelow) ||
+            (this.props.showAtOrAbove && this.state.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
+            (this.props.showAtOrBelow && this.state.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width))) {
+            var responsiveKey_1 = this.state.currentBreakpoint.name;
             if (typeof this.props.children === "function") {
                 childrenToRender = this.props.children(responsiveKey_1);
             }
