@@ -6,18 +6,19 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var React = require("react");
 /**
- * This function takes a component to wrap and a props object. All the props will be passed to the
- * <Responsive> component as props. Individual <WrappedResponsive> components can take breakpoints
- * and widthUnits that override the defaults.
+ * This function takes a component to wrap and a breakpoint object. The breakpoints object
+ * will be passed into the wrapped component as props.
  */
-function responsiveHoC(component, propsToMixIn) {
+function responsiveHoC(component, breakpoints) {
     return (function (_super) {
         __extends(WrappedResponsive, _super);
         function WrappedResponsive() {
             return _super.apply(this, arguments) || this;
         }
         WrappedResponsive.prototype.render = function () {
-            var props = Object.assign({}, propsToMixIn, this.props);
+            var props = Object.assign({}, this.props, {
+                breakpoints: breakpoints
+            });
             return React.createElement(component, props);
         };
         return WrappedResponsive;
