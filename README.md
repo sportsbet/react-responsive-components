@@ -4,26 +4,27 @@ Creates media queries at provided breakpoints, allowing various components to ta
 
 # Why?
 
-When setting up a responsive layout, it would be nice to have a simple way to get each component in the app to know about what the current form factor is, i.e. is the device small like a mobile or wide like a desktop? This library will create the media queries with listeners needed to do this, based on a simple object.
+When setting up a responsive layout, it's would be nice to have a simple way to get each component in the app to know about what the current form factor is, i.e. is the device small like a mobile or wide like a desktop? This library will create the media queries with listeners needed to do this, based on a simple object.
 
 # How does it work?
 
-Just wrap your individual components that need to respond to screen size changes with `<Responsive>`.
+You use two different components, one is the `<ResponsiveRoot>` and the other is `<Responsive>`. Wrap something near the Root component of your app with `<ResponsiveRoot>`. Then wrap your individual components that need to respond to screen size changes with `<Responsive>`.
 
-The difference in this library, as opposed to some of the other media query options out there, is that the "name" of the currentBreakpoint becomes a responsiveKey prop, which `<Responsive>` will pass to all its children. You can use this to apply different styles at different widths.
+The "name" of the currentBreakpoint becomes the responsiveKey prop. `<Responsive>` will pass this responsiveKey to all its children.
 
-If you want to completely hide or show a component at a given breakpoint, just pass "showAtOrAbove" or "showAtOrBelow" as a prop to the `<Responsive>` around it. The value of each of these is the "name" of the breakpoint.
-
-The `<Responsive>` component will set up all the media queries you need, based on the breakpoints you passed in. If your layout always responds to the same breakpoints, you can use responsiveHoC to mix a pre-defined breakpoints object into `<Responsive>` and the HoC you get back will always have those breakpoints automatically, saving a bit of boilerplate.
+The magic happens by using the same breakpoint objects in `<ResponsiveRoot>` as in `<Responsive>`. You can use responsiveHoC to mix your pre-defined breakpoints object into both components. Better yet, you can connect both of these to a redux store, so the `<Responsive>` wrappers will automatically get notified with the new breakpoint when the form factor has changed.
 
 # Example
 
 ```
 // RootComponent.jsx
 import {
+	ResponsiveRoot,
+	ResponsiveRootProps,
     Responsive,
     ResponsiveProps,
-	responsiveHoC
+	responsiveHoC,
+	Breakpoint
 } from "react-responsive-components"
 
 const breakpoints = [{
@@ -43,25 +44,44 @@ const breakpoints = [{
     width: Infinity
 }]
 
+interface RootState {
+	currentBreakpoint: Breakpoint
+}
+
+const ResponsiveRootContainer = responsiveHoC<ResponsiveRootProps>(ResponsiveRoot, breakpoints)
 const ResponsiveWrapper = responsiveHoC<ResponsiveProps>(Responsive, breakpoints)
 
 export class RootComponent extends React.Component<void, RootState> {
+	constructor() {
+		super()
+		this.state = {
+			currentBreakpoint: breakpoints[0]
+		}
+		this.currentBreakpointChanged = this.currentBreakpointChanged.bind(this)
+	}
+
+	currentBreakpointChanged (currentBreakpoint: Breakpoint) {
+		this.setState({ currentBreakpoint })
+	}
+
 	render() {
 		return (
-			<div>
-                <header>
-                    <ResponsiveWrapper showAtOrBelow="small">
-                        {(responsiveKey) => (
-                            <div className="side-menu-hamburger">
-                                <i name="hamburger" className={`icon-menu-${responsiveKey}`} />
-                            </div>
-                        )}
-                    </ResponsiveWrapper>
-                </header>
-                <ResponsiveWrapper showAtOrAbove="medium">
-                    <Content />
-                </ResponsiveWrapper>
-            </div>
+			<ResponsiveRootContainer currentBreakpointChanged={this.currentBreakpointChanged}>
+				<div>
+                    <header>
+                        <ResponsiveWrapper showAtOrBelow="small" currentBreakpoint={this.state.currentBreakpoint}>
+                            {(responsiveKey) => (
+                                <div className="side-menu-hamburger">
+                                    <i name="hamburger" className={`icon-menu-${responsiveKey}`} />
+                                </div>
+                            )}
+                        </ResponsiveWrapper>
+                    </header>
+					<ResponsiveWrapper currentBreakpoint={this.state.currentBreakpoint} showAtOrAbove="medium">
+						<Content />
+					</ResponsiveWrapper>
+				</div>
+			</ResponsiveRootContainer>
 		)
 	}
 }

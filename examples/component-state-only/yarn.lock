@@ -12,9 +12,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
-  version "15.0.18"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.18.tgz#258b1cda9d9aa875d68d317238c31eefdaa1a557"
+"@types/react@*", "@types/react@^15.0.16":
+  version "15.0.16"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.16.tgz#78e39511a9cfcabf7f74ecd55180522f4290a0c1"
 
 abbrev@1:
   version "1.1.0"
@@ -750,7 +750,7 @@ fancy-log@^1.1.0:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
 
-fbjs@^0.8.1:
+fbjs@^0.8.1, fbjs@^0.8.4:
   version "0.8.9"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.9.tgz#180247fbd347dcc9004517b904f865400a0c8f14"
   dependencies:
@@ -2095,6 +2095,18 @@ react-dom@^15.4.2:
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
   dependencies:
     fbjs "^0.8.1"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+
+react-responsive-components@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-responsive-components/-/react-responsive-components-0.1.2.tgz#775e2ddf8b24df197871bafeacb6c1a38b41f42b"
+
+react@^15.4.2:
+  version "15.4.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
+  dependencies:
+    fbjs "^0.8.4"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
