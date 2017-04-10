@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ResponsiveChildProps, Breakpoint } from "react-responsive-components"
+import { ResponsiveChildProps, Breakpoint } from "../../../../js/react-responsive-components"
 import * as classNames from "classnames"
 import { ResponsiveWrapper } from "./responsive_wrapper"
 import { ShoppingBasket } from "./shopping_basket"

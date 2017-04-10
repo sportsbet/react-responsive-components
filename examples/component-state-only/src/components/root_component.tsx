@@ -6,7 +6,7 @@ import {
 	ResponsiveRootProps,
 	responsiveHoC,
 	Breakpoint
-} from "react-responsive-components"
+} from "../../../../js/react-responsive-components"
 import { ResponsiveWrapper } from "./responsive_wrapper"
 import { breakpoints } from "../models/breakpoints"
 import { Header } from "./header"
@@ -16,7 +16,7 @@ interface RootState {
 	currentBreakpoint: Breakpoint
 }
 
-const ResponsiveRootContainer = responsiveHoC<ResponsiveRootProps>(ResponsiveRoot, breakpoints)
+const ResponsiveRootContainer = responsiveHoC<ResponsiveRootProps>(ResponsiveRoot, { breakpoints })
 
 export class RootComponent extends React.Component<void, RootState> {
 	constructor() {

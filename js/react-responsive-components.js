@@ -1,24 +1,29 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 /**
- * This function takes a component to wrap and a breakpoint object. The breakpoints object
- * will be passed into the wrapped component as props.
+ * This function takes a component to wrap and a props object. All the props will be passed to the
+ * wrapped component as props. Individual <WrappedResponsive> components can take breakpoints
+ * and widthUnits that override the defaults.
  */
-function responsiveHoC(component, breakpoints) {
+function responsiveHoC(component, propsToMixin) {
     return (function (_super) {
         __extends(WrappedResponsive, _super);
         function WrappedResponsive() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         WrappedResponsive.prototype.render = function () {
-            var props = Object.assign({}, this.props, {
-                breakpoints: breakpoints
-            });
+            var props = Object.assign({}, propsToMixin, this.props);
             return React.createElement(component, props);
         };
         return WrappedResponsive;
@@ -42,7 +47,7 @@ exports.responsiveHoC = responsiveHoC;
 var ResponsiveRoot = (function (_super) {
     __extends(ResponsiveRoot, _super);
     function ResponsiveRoot() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     ResponsiveRoot.prototype.componentDidMount = function () {
         var _this = this;
@@ -126,7 +131,7 @@ exports.ResponsiveRoot = ResponsiveRoot;
 var Responsive = (function (_super) {
     __extends(Responsive, _super);
     function Responsive() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Responsive.prototype.getComparisonBreakpoint = function (comparisonBreakpointName) {
         return this.props.breakpoints.find(function (breakpoint) {

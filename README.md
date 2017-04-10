@@ -4,7 +4,7 @@ Creates media queries at provided breakpoints, allowing various components to ta
 
 # Why?
 
-When setting up a responsive layout, it's would be nice to have a simple way to get each component in the app to know about what the current form factor is, i.e. is the device small like a mobile or wide like a desktop? This library will create the media queries with listeners needed to do this, based on a simple object.
+When setting up a responsive layout, it would be nice to have a simple way to get each component in the app to know about what the current form factor is, i.e. is the device small like a mobile or wide like a desktop? This library will create the media queries with listeners needed to do this, based on a simple object.
 
 # How does it work?
 
