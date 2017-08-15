@@ -64,7 +64,7 @@ export interface ResponsiveChildProps {
  * to children below the top-level.
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
- * passing showAtOrAbove or showAtOrBelow as props to <Responsive>.
+ * passing showAtOrAbove and/or showAtOrBelow as props to <Responsive>.
  *
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
