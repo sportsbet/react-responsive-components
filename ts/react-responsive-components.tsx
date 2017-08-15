@@ -119,7 +119,11 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 export interface ResponsiveProps extends MixedInHoCProps {
 	currentBreakpoint?: Breakpoint
 	showAtOrAbove?: string,
-	showAtOrBelow?: string
+	showAtOrBelow?: string,
+	showBetween?: {
+		min: string,
+		max: string
+	}
 }
 
 export interface ResponsiveChildProps {
@@ -138,7 +142,7 @@ export interface ResponsiveChildProps {
  * to children below the top-level.
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
- * passing showAtOrAbove and/or showAtOrBelow as props to <Responsive>.
+ * passing showAtOrAbove, showAtOrBelow or showBetween as props to <Responsive>.
  *
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
@@ -153,17 +157,14 @@ export class Responsive extends React.Component<ResponsiveProps, void> {
 	render() {
 		let childrenToRender = null
 		if (this.props.currentBreakpoint && (
-			(!this.props.showAtOrAbove && !this.props.showAtOrBelow) || (
-				(this.props.showAtOrAbove && this.props.showAtOrBelow) &&
-				(this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width &&
-				 this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width)
-			) || (
-				!(this.props.showAtOrAbove && this.props.showAtOrBelow) && (
-					(this.props.showAtOrAbove && this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
-					(this.props.showAtOrBelow && this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width)
-				)
-			)
-		)) {
+			(!this.props.showAtOrAbove && !this.props.showAtOrBelow && !this.props.showBetween) ||
+			(this.props.showAtOrAbove && this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
+			(this.props.showAtOrBelow && this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width) ||
+			(
+				this.props.showBetween &&
+				this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showBetween.min).width &&
+				this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showBetween.max).width
+			))) {
 			const responsiveKey = this.props.currentBreakpoint.name
 			if (typeof this.props.children === "function") {
 				childrenToRender = this.props.children(responsiveKey)

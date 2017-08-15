@@ -48,6 +48,10 @@ export interface ResponsiveProps extends MixedInHoCProps {
     currentBreakpoint?: Breakpoint;
     showAtOrAbove?: string;
     showAtOrBelow?: string;
+    showBetween?: {
+        min: string;
+        max: string;
+    };
 }
 export interface ResponsiveChildProps {
     responsiveKey?: string;
@@ -64,7 +68,7 @@ export interface ResponsiveChildProps {
  * to children below the top-level.
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
- * passing showAtOrAbove and/or showAtOrBelow as props to <Responsive>.
+ * passing showAtOrAbove, showAtOrBelow or showBetween as props to <Responsive>.
  *
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
