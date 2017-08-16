@@ -46,12 +46,8 @@ export declare class ResponsiveRoot extends React.Component<ResponsiveRootProps,
 }
 export interface ResponsiveProps extends MixedInHoCProps {
     currentBreakpoint?: Breakpoint;
-    showAtOrAbove?: string;
-    showAtOrBelow?: string;
-    showBetween?: {
-        min: string;
-        max: string;
-    };
+    maxSize?: string;
+    minSize?: string;
 }
 export interface ResponsiveChildProps {
     responsiveKey?: string;
@@ -75,5 +71,6 @@ export interface ResponsiveChildProps {
  */
 export declare class Responsive extends React.Component<ResponsiveProps, void> {
     getComparisonBreakpoint(comparisonBreakpointName: string): Breakpoint;
+    isBreakpointWithinBounds(): boolean;
     render(): any;
 }

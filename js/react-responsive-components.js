@@ -138,14 +138,22 @@ var Responsive = (function (_super) {
             return breakpoint.name === comparisonBreakpointName;
         });
     };
+    // Returns true if currentBreakpoint is between minSize/maxSize values (inclusive)
+    // If there are no values for either it always returns true
+    Responsive.prototype.isBreakpointWithinBounds = function () {
+        var atOrAboveMin = true;
+        var atOrBelowMax = true;
+        if (this.props.minSize) {
+            atOrAboveMin = this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.minSize).width;
+        }
+        if (this.props.maxSize) {
+            atOrBelowMax = this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.maxSize).width;
+        }
+        return atOrAboveMin && atOrBelowMax;
+    };
     Responsive.prototype.render = function () {
         var childrenToRender = null;
-        if (this.props.currentBreakpoint && ((!this.props.showAtOrAbove && !this.props.showAtOrBelow && !this.props.showBetween) ||
-            (this.props.showAtOrAbove && this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
-            (this.props.showAtOrBelow && this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width) ||
-            (this.props.showBetween &&
-                this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showBetween.min).width &&
-                this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showBetween.max).width))) {
+        if (this.props.currentBreakpoint && this.isBreakpointWithinBounds()) {
             var responsiveKey_1 = this.props.currentBreakpoint.name;
             if (typeof this.props.children === "function") {
                 childrenToRender = this.props.children(responsiveKey_1);
