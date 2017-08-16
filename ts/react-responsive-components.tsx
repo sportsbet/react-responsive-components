@@ -20,7 +20,7 @@ export interface MixedInHoCProps {
  * and widthUnits that override the defaults.
  */
 export function responsiveHoC<TComponentProps extends MixedInHoCProps>(component: React.ComponentClass<TComponentProps>, propsToMixin: MixedInHoCProps): React.ComponentClass<TComponentProps> {
-	return class WrappedResponsive extends React.Component<TComponentProps, void> {
+	return class WrappedResponsive extends React.Component<TComponentProps> {
 		render() {
 			const props = Object.assign({}, propsToMixin, this.props)
 			return React.createElement(component, props)
@@ -118,8 +118,8 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 
 export interface ResponsiveProps extends MixedInHoCProps {
 	currentBreakpoint?: Breakpoint
-	showAtOrAbove?: string,
-	showAtOrBelow?: string
+	maxSize?: string,
+	minSize?: string
 }
 
 export interface ResponsiveChildProps {
@@ -138,7 +138,7 @@ export interface ResponsiveChildProps {
  * to children below the top-level.
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
- * passing showAtOrAbove or showAtOrBelow as props to <Responsive>.
+ * passing minSize and/or maxSize as props to <Responsive>.
  *
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
@@ -150,13 +150,23 @@ export class Responsive extends React.Component<ResponsiveProps, void> {
 		})
 	}
 
+	// Returns true if currentBreakpoint is between minSize/maxSize values (inclusive)
+	// If there are no values for either it always returns true
+	private isBreakpointWithinBounds() : boolean {
+		let atOrAboveMin: boolean = true
+		let atOrBelowMax: boolean = true
+		if (this.props.minSize) {
+			atOrAboveMin = this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.minSize).width
+		}
+		if (this.props.maxSize) {
+			atOrBelowMax = this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.maxSize).width
+		}
+		return atOrAboveMin && atOrBelowMax
+	}
+
 	render() {
 		let childrenToRender = null
-		if (this.props.currentBreakpoint && (
-			(!this.props.showAtOrAbove && !this.props.showAtOrBelow) ||
-			(this.props.showAtOrAbove && this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.showAtOrAbove).width) ||
-			(this.props.showAtOrBelow && this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.showAtOrBelow).width))
-		) {
+		if (this.props.currentBreakpoint && this.isBreakpointWithinBounds()) {
 			const responsiveKey = this.props.currentBreakpoint.name
 			if (typeof this.props.children === "function") {
 				childrenToRender = this.props.children(responsiveKey)

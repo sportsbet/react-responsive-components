@@ -46,8 +46,8 @@ export declare class ResponsiveRoot extends React.Component<ResponsiveRootProps,
 }
 export interface ResponsiveProps extends MixedInHoCProps {
     currentBreakpoint?: Breakpoint;
-    showAtOrAbove?: string;
-    showAtOrBelow?: string;
+    maxSize?: string;
+    minSize?: string;
 }
 export interface ResponsiveChildProps {
     responsiveKey?: string;
@@ -64,12 +64,13 @@ export interface ResponsiveChildProps {
  * to children below the top-level.
  *
  * Whichever flavour you opt for, you can conditionally hide or show anything inside it by
- * passing showAtOrAbove or showAtOrBelow as props to <Responsive>.
+ * passing minSize and/or maxSize as props to <Responsive>.
  *
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
  */
 export declare class Responsive extends React.Component<ResponsiveProps, void> {
     getComparisonBreakpoint(comparisonBreakpointName: string): Breakpoint;
+    private isBreakpointWithinBounds();
     render(): any;
 }
