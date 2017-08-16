@@ -69,7 +69,7 @@ export class RootComponent extends React.Component<void, RootState> {
 			<ResponsiveRootContainer currentBreakpointChanged={this.currentBreakpointChanged}>
 				<div>
                     <header>
-                        <ResponsiveWrapper showAtOrBelow="small" currentBreakpoint={this.state.currentBreakpoint}>
+                        <ResponsiveWrapper maxSize="small" currentBreakpoint={this.state.currentBreakpoint}>
                             {(responsiveKey) => (
                                 <div className="side-menu-hamburger">
                                     <i name="hamburger" className={`icon-menu-${responsiveKey}`} />
@@ -77,7 +77,7 @@ export class RootComponent extends React.Component<void, RootState> {
                             )}
                         </ResponsiveWrapper>
                     </header>
-					<ResponsiveWrapper currentBreakpoint={this.state.currentBreakpoint} showAtOrAbove="medium">
+					<ResponsiveWrapper currentBreakpoint={this.state.currentBreakpoint} minSize="medium">
 						<Content />
 					</ResponsiveWrapper>
 				</div>
