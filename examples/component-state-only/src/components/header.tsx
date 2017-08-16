@@ -14,18 +14,18 @@ export class Header extends React.Component<HeaderProps, void> {
 		return (
 			<header className={classNames("header", { [`header-${key}`]: !!key })}>
 	            <div className={classNames("upper-row", { [`upper-row-${key}`]: !!key })}>
-					<ResponsiveWrapper showAtOrBelow="small" currentBreakpoint={this.props.currentBreakpoint}>
+					<ResponsiveWrapper maxSize="small" currentBreakpoint={this.props.currentBreakpoint}>
 						{() => (
 							<div className="side-menu-hamburger"><i name="hamburger" className="icon-menu" /></div>
 						)}
 					</ResponsiveWrapper>
 					<div className="brand-label"><a href="/">Hello World</a></div>
-					<ResponsiveWrapper showAtOrBelow="small" currentBreakpoint={this.props.currentBreakpoint}>
+					<ResponsiveWrapper maxSize="small" currentBreakpoint={this.props.currentBreakpoint}>
 						<ShoppingBasket />
 					</ResponsiveWrapper>
 				</div>
 				<div>
-					<ResponsiveWrapper showAtOrAbove="medium" currentBreakpoint={this.props.currentBreakpoint}>
+					<ResponsiveWrapper minSize="medium" currentBreakpoint={this.props.currentBreakpoint}>
 						{(responsiveKey: string) => (
                             <nav className="nav-container">
                                 <div className="nav-item">HOME</div>
@@ -37,7 +37,7 @@ export class Header extends React.Component<HeaderProps, void> {
                         )}
 					</ResponsiveWrapper>
 				</div>
-				<ResponsiveWrapper showAtOrAbove="medium" currentBreakpoint={this.props.currentBreakpoint}>
+				<ResponsiveWrapper minSize="medium" currentBreakpoint={this.props.currentBreakpoint}>
 					<ShoppingBasket />
 				</ResponsiveWrapper>
 			</header>
