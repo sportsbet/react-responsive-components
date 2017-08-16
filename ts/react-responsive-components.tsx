@@ -152,7 +152,7 @@ export class Responsive extends React.Component<ResponsiveProps, void> {
 
 	// Returns true if currentBreakpoint is between minSize/maxSize values (inclusive)
 	// If there are no values for either it always returns true
-	isBreakpointWithinBounds() : boolean {
+	private isBreakpointWithinBounds() : boolean {
 		let atOrAboveMin: boolean = true
 		let atOrBelowMax: boolean = true
 		if (this.props.minSize) {
