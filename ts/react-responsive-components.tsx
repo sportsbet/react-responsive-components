@@ -10,7 +10,7 @@ export interface Breakpoint {
 export type Breakpoints = Breakpoint[]
 
 export interface MixedInHoCProps {
-	breakpoints?: Breakpoints,
+	breakpoints?: Breakpoints
 	widthUnits?: "px" | "rem" | "em"
 }
 
@@ -47,6 +47,7 @@ export interface ResponsiveRootProps extends MixedInHoCProps {
  * breakpoint has changed (e.g. user has shrunk the browser window).
  */
 export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
+
 	public static defaultProps: Partial<ResponsiveRootProps> = {
 		widthUnits: "px"
 	}
@@ -59,6 +60,7 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 	componentDidMount() {
 		if (window.matchMedia) {
 			const mediaQueries = this.buildMediaQueryStrings(this.props.breakpoints)
+
 			this.mediaQueriesWithListeners = mediaQueries.map((namedMediaQuery) => {
 				const mediaQuery = window.matchMedia(namedMediaQuery.mediaQuery)
 				const listener = () => {
@@ -69,8 +71,10 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 						})
 					}
 				}
+
 				mediaQuery.addListener(listener)
 				listener()
+
 				return { mediaQuery, listener }
 			})
 		}
@@ -81,6 +85,7 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 			this.mediaQueriesWithListeners.forEach(({ mediaQuery, listener }) => {
 				mediaQuery.removeListener(listener)
 			})
+
 			delete this.mediaQueriesWithListeners
 		}
 	}
@@ -88,17 +93,22 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 	buildMediaQueryStrings(breakpoints: Breakpoints) {
 		return breakpoints.map((breakpoint, index, allBreakpoints) => {
 			let mediaQuery: string
+
 			if (index === 0) {
 				mediaQuery = `(max-width: ${breakpoint.width}${this.props.widthUnits})`
 			} else {
-				const minWidthMediaQueryString = `(min-width: ${allBreakpoints[index - 1].width + 1}${this.props.widthUnits})`
+				const fontSize = Number(window.getComputedStyle(document.body).getPropertyValue("font-size").match(/\d+/))
+				const shift = (this.props.widthUnits === "px") ? 1 : 1 / fontSize
+
+				const minWidthMediaQueryString = `(min-width: ${allBreakpoints[index - 1].width + shift}${this.props.widthUnits})`
+
 				if (breakpoint.width < Infinity) {
-					const mediaQueryString = `${minWidthMediaQueryString} and (max-width: ${breakpoint.width}${this.props.widthUnits})`
-					mediaQuery = mediaQueryString
+					mediaQuery = `${minWidthMediaQueryString} and (max-width: ${breakpoint.width}${this.props.widthUnits})`
 				} else {
 					mediaQuery = minWidthMediaQueryString
 				}
 			}
+
 			return {
 				name: breakpoint.name,
 				maxWidth: breakpoint.width,
@@ -118,7 +128,7 @@ export class ResponsiveRoot extends React.Component<ResponsiveRootProps, void> {
 
 export interface ResponsiveProps extends MixedInHoCProps {
 	currentBreakpoint?: Breakpoint
-	maxSize?: string,
+	maxSize?: string
 	minSize?: string
 }
 
@@ -144,6 +154,7 @@ export interface ResponsiveChildProps {
  * to do this for you.
  */
 export class Responsive extends React.Component<ResponsiveProps, void> {
+
 	getComparisonBreakpoint(comparisonBreakpointName: string) {
 		return this.props.breakpoints.find((breakpoint) => {
 			return breakpoint.name === comparisonBreakpointName
@@ -155,19 +166,24 @@ export class Responsive extends React.Component<ResponsiveProps, void> {
 	private isBreakpointWithinBounds() : boolean {
 		let atOrAboveMin: boolean = true
 		let atOrBelowMax: boolean = true
+
 		if (this.props.minSize) {
 			atOrAboveMin = this.props.currentBreakpoint.width >= this.getComparisonBreakpoint(this.props.minSize).width
 		}
+
 		if (this.props.maxSize) {
 			atOrBelowMax = this.props.currentBreakpoint.width <= this.getComparisonBreakpoint(this.props.maxSize).width
 		}
+
 		return atOrAboveMin && atOrBelowMax
 	}
 
 	render() {
 		let childrenToRender = null
+
 		if (this.props.currentBreakpoint && this.isBreakpointWithinBounds()) {
 			const responsiveKey = this.props.currentBreakpoint.name
+
 			if (typeof this.props.children === "function") {
 				childrenToRender = this.props.children(responsiveKey)
 			} else {
@@ -189,6 +205,7 @@ export class Responsive extends React.Component<ResponsiveProps, void> {
 				)
 			}
 		}
+
 		return childrenToRender
 	}
 }

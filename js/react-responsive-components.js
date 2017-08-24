@@ -86,10 +86,11 @@ var ResponsiveRoot = (function (_super) {
                 mediaQuery = "(max-width: " + breakpoint.width + _this.props.widthUnits + ")";
             }
             else {
-                var minWidthMediaQueryString = "(min-width: " + (allBreakpoints[index - 1].width + 1) + _this.props.widthUnits + ")";
+                var fontSize = Number(window.getComputedStyle(document.body).getPropertyValue("font-size").match(/\d+/));
+                var shift = (_this.props.widthUnits === "px") ? 1 : 1 / fontSize;
+                var minWidthMediaQueryString = "(min-width: " + (allBreakpoints[index - 1].width + shift) + _this.props.widthUnits + ")";
                 if (breakpoint.width < Infinity) {
-                    var mediaQueryString = minWidthMediaQueryString + " and (max-width: " + breakpoint.width + _this.props.widthUnits + ")";
-                    mediaQuery = mediaQueryString;
+                    mediaQuery = minWidthMediaQueryString + " and (max-width: " + breakpoint.width + _this.props.widthUnits + ")";
                 }
                 else {
                     mediaQuery = minWidthMediaQueryString;
