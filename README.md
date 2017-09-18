@@ -83,7 +83,7 @@ export class RootComponent extends React.Component<void, RootState> {
 					<ResponsiveWrapper currentBreakpoint={this.state.currentBreakpoint} minSize="medium">
 						{(responsiveKey: string) => (
 						    <Content responsiveKey={responsiveKey} />
-                        )}
+						)}
 					</ResponsiveWrapper>
 				</div>
 			</ResponsiveRootContainer>
