@@ -17,7 +17,7 @@ var React = require("react");
  * and widthUnits that override the defaults.
  */
 function responsiveHoC(component, propsToMixin) {
-    return (function (_super) {
+    return /** @class */ (function (_super) {
         __extends(WrappedResponsive, _super);
         function WrappedResponsive() {
             return _super !== null && _super.apply(this, arguments) || this;
@@ -44,7 +44,7 @@ exports.responsiveHoC = responsiveHoC;
  * as props. ResponsiveRoot will call to it with the new breakpoint whenever the
  * breakpoint has changed (e.g. user has shrunk the browser window).
  */
-var ResponsiveRoot = (function (_super) {
+var ResponsiveRoot = /** @class */ (function (_super) {
     __extends(ResponsiveRoot, _super);
     function ResponsiveRoot() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -129,7 +129,7 @@ exports.ResponsiveRoot = ResponsiveRoot;
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
  */
-var Responsive = (function (_super) {
+var Responsive = /** @class */ (function (_super) {
     __extends(Responsive, _super);
     function Responsive() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -153,27 +153,18 @@ var Responsive = (function (_super) {
         return atOrAboveMin && atOrBelowMax;
     };
     Responsive.prototype.render = function () {
-        var childrenToRender = null;
         if (this.props.currentBreakpoint && this.isBreakpointWithinBounds()) {
-            var responsiveKey_1 = this.props.currentBreakpoint.name;
             if (typeof this.props.children === "function") {
-                childrenToRender = this.props.children(responsiveKey_1);
+                var responsiveKey = this.props.currentBreakpoint.name;
+                return this.props.children(responsiveKey);
             }
             else {
-                childrenToRender = (React.createElement("div", null, React.Children.map(this.props.children, function (child) {
-                    if (typeof child === "string" || typeof child === "number") {
-                        // Leave string and number-type children in place as these aren't going to be responsive
-                        return child;
-                    }
-                    else {
-                        return React.cloneElement(child, {
-                            responsiveKey: responsiveKey_1
-                        });
-                    }
-                })));
+                return this.props.children;
             }
         }
-        return childrenToRender;
+        else {
+            return null;
+        }
     };
     return Responsive;
 }(React.Component));
