@@ -179,33 +179,16 @@ export class Responsive extends React.Component<ResponsiveProps, void> {
 	}
 
 	render() {
-		let childrenToRender = null
 
 		if (this.props.currentBreakpoint && this.isBreakpointWithinBounds()) {
-			const responsiveKey = this.props.currentBreakpoint.name
-
 			if (typeof this.props.children === "function") {
-				childrenToRender = this.props.children(responsiveKey)
+				const responsiveKey = this.props.currentBreakpoint.name
+				return this.props.children(responsiveKey)
 			} else {
-				childrenToRender = (
-					<div>
-						{
-							React.Children.map(this.props.children, (child) => {
-								if (typeof child === "string" || typeof child === "number") {
-									// Leave string and number-type children in place as these aren't going to be responsive
-									return child
-								} else {
-									return React.cloneElement(child, {
-										responsiveKey
-									})
-								}
-							})
-						}
-					</div>
-				)
+				return this.props.children
 			}
+		} else {
+			return null
 		}
-
-		return childrenToRender
 	}
 }

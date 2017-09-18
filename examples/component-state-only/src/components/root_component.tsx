@@ -38,8 +38,12 @@ export class RootComponent extends React.Component<void, RootState> {
 			<ResponsiveRootContainer currentBreakpointChanged={this.currentBreakpointChanged}>
 				<div>
 					<ResponsiveWrapper currentBreakpoint={this.state.currentBreakpoint}>
-						<Header currentBreakpoint={this.state.currentBreakpoint}/>
-						<Content />
+						{(responsiveKey: string) => (
+							<div>
+								<Header currentBreakpoint={this.state.currentBreakpoint}/>
+								<Content responsiveKey={responsiveKey}/>
+							</div>
+						)}
 					</ResponsiveWrapper>
 				</div>
 			</ResponsiveRootContainer>
