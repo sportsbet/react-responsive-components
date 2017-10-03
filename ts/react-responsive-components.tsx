@@ -46,7 +46,7 @@ export interface ResponsiveRootProps extends MixedInHoCProps {
  * as props. ResponsiveRoot will call to it with the new breakpoint whenever the
  * breakpoint has changed (e.g. user has shrunk the browser window).
  */
-export class ResponsiveRoot extends React.Component<ResponsiveRootProps, null> {
+export class ResponsiveRoot extends React.Component<ResponsiveRootProps> {
 
 	public static defaultProps: Partial<ResponsiveRootProps> = {
 		widthUnits: "px"
@@ -153,7 +153,7 @@ export interface ResponsiveChildProps {
  * You need to pass in your breakpoints object to every <Responsive>, but you can use responsiveHoC
  * to do this for you.
  */
-export class Responsive extends React.Component<ResponsiveProps, null> {
+export class Responsive extends React.Component<ResponsiveProps> {
 
 	getComparisonBreakpoint(comparisonBreakpointName: string) {
 		return this.props.breakpoints.find((breakpoint) => {
