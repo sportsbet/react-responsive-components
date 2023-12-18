@@ -46,7 +46,7 @@ export interface ResponsiveRootProps extends MixedInHoCProps {
  * as props. ResponsiveRoot will call to it with the new breakpoint whenever the
  * breakpoint has changed (e.g. user has shrunk the browser window).
  */
-export class ResponsiveRoot extends React.Component<ResponsiveRootProps> {
+export class ResponsiveRoot extends React.Component<React.PropsWithChildren<ResponsiveRootProps>> {
 
 	public static defaultProps: Partial<ResponsiveRootProps> = {
 		widthUnits: "px"
@@ -130,6 +130,13 @@ export interface ResponsiveProps extends MixedInHoCProps {
 	currentBreakpoint?: Breakpoint
 	maxSize?: string
 	minSize?: string
+	// Children has been removed from React FC types, but we heavily rely on that with web responsive components
+	// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/56210
+	// We refine children type as the following because in `Responsive` component's option 2, we are able
+	// to pass a function as the children of the Responsive component.
+	// Usually responsiveKey is a string type, but in your own repo, you may define a set of string as enum for its type.
+	// Hence we use any here to cover any customised types.
+	children?: React.ReactNode | undefined | ((responsiveKey: any) => JSX.Element)
 }
 
 export interface ResponsiveChildProps {

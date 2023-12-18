@@ -48,6 +48,7 @@ export interface ResponsiveProps extends MixedInHoCProps {
     currentBreakpoint?: Breakpoint;
     maxSize?: string;
     minSize?: string;
+    children?: React.ReactNode | undefined | ((responsiveKey: any) => JSX.Element)
 }
 export interface ResponsiveChildProps {
     responsiveKey?: string;
