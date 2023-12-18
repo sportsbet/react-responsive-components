@@ -136,7 +136,7 @@ export interface ResponsiveProps extends MixedInHoCProps {
 	// to pass a function as the children of the Responsive component.
 	// Usually responsiveKey is a string type, but in your own repo, you may define a set of string as enum for its type.
 	// Hence we use any here to cover any customised types.
-	children?: React.ReactNode | undefined | ((responsiveKey: any) => JSX.Element)
+	children?: React.ReactNode | undefined | ((responsiveKey: string) => JSX.Element)
 }
 
 export interface ResponsiveChildProps {
