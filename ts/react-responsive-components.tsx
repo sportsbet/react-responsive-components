@@ -134,7 +134,7 @@ export interface ResponsiveProps extends MixedInHoCProps {
 	// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/56210
 	// We refine children type as the following because in `Responsive` component's option 2, we are able
 	// to pass a function as the children of the Responsive component.
-	children?: React.ReactNode | undefined | ((responsiveKey: string) => JSX.Element)
+	children?: React.ReactNode | undefined | ((responsiveKey: any) => React.JSX.Element | null)
 }
 
 export interface ResponsiveChildProps {
